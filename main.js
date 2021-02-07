@@ -1,72 +1,97 @@
-var app = document.getElementById('app');
+// Shorthand para el objeto document.
+const d = document;
 
+// Seleccion de contenedor padre de la aplicacion.
+const appContainer = d.getElementById("app");
+addClasses(appContainer, "container-lg", "mx-4", "py-4", "bg-primary");
 
-document.body.onload = create();
-
-function create(){
-  
-  var toDoList = document.createElement("div");
-  toDoList.setAttribute("id", "toDoContainer");
-  app.appendChild(toDoList);
-    
-  var title = document.createElement("h1");
-  title.setAttribute("id","Title");
-  var titleContent = document.createTextNode("To Do List");
-  title.appendChild(titleContent); //añade texto al h1 creado.
-  document.body.insertBefore(title, app);
-
-  var inputField = document.createElement("input");
-  inputField.setAttribute("id","inputField");
-  inputField.setAttribute("type","text");
-  app.insertBefore(inputField, toDoContainer);
-
-  var addToDoButton = document.createElement("button");
-  addToDoButton.setAttribute("id","addToDo");
-  var buttonContent = document.createTextNode("AGREGAR");
-  addToDoButton.appendChild(buttonContent);
-  app.insertBefore(addToDoButton, toDoContainer);
-
-  
-
-
-
-  addToDoButton.addEventListener('click',function(){
-
-    var space = document.createElement("br");
-
-    var check = document.createElement("input");
-    
-    check.setAttribute("type", "checkbox");
-    toDoList.appendChild(check);
-    
-  
-    check.addEventListener('click',function(){
-        paragraph.style.textDecoration = "line-through";
-    })
-
-    var paragraph = document.createElement("p");
-    paragraph.classList.add('paragraph-styling');
-    paragraph.innerText = inputField.value;
-    toDoList.appendChild(paragraph);
-    inputField.value = "";
-
-    var deleteButton = document.createElement("button");
-    deleteButton.textContent = 'BORRAR';
-    toDoList.appendChild(deleteButton);
-    toDoList.appendChild(space);
-
-    deleteButton.addEventListener('click',function(){
-        toDoList.removeChild(check);
-        toDoList.removeChild(paragraph);
-        toDoList.removeChild(deleteButton);
-        toDoList.removeChild(space);
-    })
-})
-    
+// Funcion que crea un elemento nodo a partir de su tipo.
+function createNode(typeNode = "div") {
+  return d.createElement(typeNode);
 }
 
+// Funcion que añade nodos de tipo elemento o texto, al elemento padre.
+function appendChildNodes(parentNode, ...childNodes) {
+  childNodes.forEach((element) => {
+    if (typeof element === "string") {
+      parentNode.appendChild(d.createTextNode(element));
+    } else {
+      parentNode.appendChild(element);
+    }
+  });
+}
 
- 
+// Funcion que añade una lista de clases a un elemento.
+function addClasses(node, ...styleClasses) {
+  styleClasses.forEach((style) => {
+    node.classList.add(style);
+  });
+}
 
+// Bloque para integrar cabecera de la app en html
+const appHeader = createNode("form");
+appHeader.id = "appHeader";
+addClasses(appHeader, "container-fluid", "mb-4");
 
+const inputTask = createNode("input");
+addClasses(inputTask, "form-control", "mr-3");
+inputTask.type = "text";
+inputTask.name = "todo";
+inputTask.placeholder = "Add a new task...";
 
+const submitTask = createNode("button");
+addClasses(submitTask, "btn", "btn-info", "px-5");
+submitTask.type = "submit";
+appendChildNodes(submitTask, "Add");
+
+// Adicion de nodos hijos al header
+appendChildNodes(appHeader, inputTask, submitTask);
+
+// Bloque para integrar el cuerpo de la app en html
+const appBody = createNode("main");
+appBody.id = "todo-list";
+addClasses(appBody, "container-fluid", "bg-active", "py-2");
+
+// Logica de adicion de todos
+function generateToDoTemplate(toDoDescription) {
+  const toDoTemplate = `
+    <div class="todo-item row shadow w-100  bg-light ">
+        <input class="checkToDo col" type="checkbox">
+        <div class="descriptionWrapper col-10 border-secondary"> 
+            ${toDoDescription} 
+        </div>
+        <button class="btn deleteToDo col"><img src="./delete.svg"></button>
+    </div>
+    `;
+  appBody.innerHTML += toDoTemplate;
+}
+
+appHeader.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const newToDo = e.target.todo.value.trim();
+  if (newToDo.length) {
+    generateToDoTemplate(newToDo);
+    e.target.reset();
+  }
+});
+
+// Adicion de nodos hijos a la aplicacion
+appendChildNodes(appContainer, appHeader, appBody);
+
+// Logica de marcado como hecho del todo
+function checkToDoDone() {
+    d.querySelectorAll(".checkToDo").forEach((item) => {
+        item.addEventListener("click", () => {
+        item.nextElementSibling.classList.toggle("done");
+        });
+    });
+}
+
+// Logica de eliminacion de todos
+function deleteToDo() {
+    d.querySelectorAll(".deleteToDo").forEach((item) => {
+      item.addEventListener("click", () => {
+        item.parentElement.remove();
+      });
+    });
+  }
