@@ -55,13 +55,13 @@ addClasses(appBody, "container-fluid", "bg-active", "py-2");
 // Logica de adicion de todos
 function generateToDoTemplate(toDoDescription) {
   const toDoTemplate = `
-    <div class="todo-item row shadow w-100  bg-light ">
+      <div class="todo-item row shadow w-100 bg-light">
         <input class="checkToDo col" type="checkbox">
-        <div class="descriptionWrapper col-10 border-secondary"> 
-            ${toDoDescription} 
+        <div class="descriptionWrapper col-10 border-secondary">
+            ${toDoDescription}
         </div>
-        <button class="btn deleteToDo col"><img src="./delete.svg"></button>
-    </div>
+        <button class="btn deleteToDo col"><i class="fas fa-trash"></i></button>
+      </div>
     `;
   appBody.innerHTML += toDoTemplate;
 }
@@ -71,9 +71,33 @@ appHeader.addEventListener("submit", (e) => {
   const newToDo = e.target.todo.value.trim();
   if (newToDo.length) {
     generateToDoTemplate(newToDo);
+
+    // Instanciacion de funciones para actualizar las listas de elementos
+    // en cada accion de submit con todo nuevo.
+    checkToDoDone();
+    deleteToDo();
+
     e.target.reset();
   }
 });
+
+// Logica de marcado como hecho del todo
+function checkToDoDone() {
+  d.querySelectorAll(".checkToDo").forEach((item) => {
+    item.addEventListener("click", () => {
+      item.nextElementSibling.classList.toggle("done");
+    });
+  });
+}
+
+// Logica de eliminacion de todos
+function deleteToDo() {
+  d.querySelectorAll(".deleteToDo").forEach((item) => {
+    item.addEventListener("click", () => {
+      item.parentElement.remove();
+    });
+  });
+}
 
 // Adicion de nodos hijos a la aplicacion
 appendChildNodes(appContainer, appHeader, appBody);

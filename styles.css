@@ -53,21 +53,39 @@ body {
   cursor: pointer;
 }
 
-.checkToDo:checked {
-  background-color: red;
-}
-
 .descriptionWrapper {
   border-right: 2px solid;
   border-left: 2px solid;
   display: flex;
   align-items: center;
   word-break: break-all;
+  animation: unmarkdone 0.3s linear;
+  text-decoration: line-through;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
 }
 
-.toDoDescription {
-  margin-bottom: 0;
-  word-wrap: break-word;
+.descriptionWrapper.done {
+  color: #95a5a6;
+  animation: markdone 0.3s linear;
+  text-decoration-color: #000;
+}
+
+@keyframes markdone {
+  from {
+    text-decoration-color: transparent;
+  }
+  to {
+    text-decoration-color: auto;
+  }
+}
+@keyframes unmarkdone {
+  from {
+    text-decoration-color: black;
+  }
+  to {
+    text-decoration-color: transparent;
+  }
 }
 
 .deleteToDo {
