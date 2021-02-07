@@ -62,16 +62,15 @@ addClasses(appBody, "container-fluid", "bg-active", "py-2");
 // Logica de adicion de todos
 function generateToDoTemplate(toDoDescription) {
   const toDoTemplate = `  
+  <div class="todo-item row shadow w-100 bg-dark">
     <input class="checkToDo col" type="checkbox">
     <div class="descriptionWrapper col-8 col-sm-10 border-secondary"> 
         ${toDoDescription}
     </div>
     <button class="btn deleteToDo col"><i class="fas fa-trash"></i></button>
+  </div>
     `;
-  const todo = createNode();
-  todo.innerHTML += toDoTemplate;
-  addClasses(todo, "todo-item", "row", "shadow", "w-100", "bg-dark");
-  appBody.insertBefore(todo, appBody.firstChild);
+  appBody.innerHTML += toDoTemplate;
 }
 
 appHeader.addEventListener("submit", (e) => {
