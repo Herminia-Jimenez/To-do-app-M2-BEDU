@@ -28,6 +28,13 @@ function addClasses(node, ...styleClasses) {
   });
 }
 
+//Bloque para integrar título
+const appTitle = createNode("h1");
+appTitle.id = "appTitle";
+addClasses(appTitle, "mb-5", "text-center");
+
+appendChildNodes(appTitle, "24 BruTask");
+
 // Bloque para integrar cabecera de la app en html
 const appHeader = createNode("form");
 appHeader.id = "appHeader";
@@ -37,7 +44,7 @@ const inputTask = createNode("input");
 addClasses(inputTask, "form-control", "mr-3");
 inputTask.type = "text";
 inputTask.name = "todo";
-inputTask.placeholder = "Add a new task...";
+inputTask.placeholder = "Add a task...";
 
 const submitTask = createNode("button");
 addClasses(submitTask, "btn", "btn-info", "px-5");
@@ -54,16 +61,17 @@ addClasses(appBody, "container-fluid", "bg-active", "py-2");
 
 // Logica de adicion de todos
 function generateToDoTemplate(toDoDescription) {
-  const toDoTemplate = `
-      <div class="todo-item row shadow w-100 bg-light">
-        <input class="checkToDo col" type="checkbox">
-        <div class="descriptionWrapper col-10 border-secondary">
-            ${toDoDescription}
-        </div>
-        <button class="btn deleteToDo col"><i class="fas fa-trash"></i></button>
-      </div>
+  const toDoTemplate = `  
+    <input class="checkToDo col" type="checkbox">
+    <div class="descriptionWrapper col-8 col-sm-10 border-secondary"> 
+        ${toDoDescription}
+    </div>
+    <button class="btn deleteToDo col"><i class="fas fa-trash"></i></button>
     `;
-  appBody.innerHTML += toDoTemplate;
+  const todo = createNode();
+  todo.innerHTML += toDoTemplate;
+  addClasses(todo, "todo-item", "row", "shadow", "w-100", "bg-dark");
+  appBody.insertBefore(todo, appBody.firstChild);
 }
 
 appHeader.addEventListener("submit", (e) => {
@@ -71,12 +79,8 @@ appHeader.addEventListener("submit", (e) => {
   const newToDo = e.target.todo.value.trim();
   if (newToDo.length) {
     generateToDoTemplate(newToDo);
-
-    // Instanciacion de funciones para actualizar las listas de elementos
-    // en cada accion de submit con todo nuevo.
     checkToDoDone();
     deleteToDo();
-
     e.target.reset();
   }
 });
@@ -84,6 +88,7 @@ appHeader.addEventListener("submit", (e) => {
 // Logica de marcado como hecho del todo
 function checkToDoDone() {
   d.querySelectorAll(".checkToDo").forEach((item) => {
+    item.checked = item.nextElementSibling.classList.contains("done");
     item.addEventListener("click", () => {
       item.nextElementSibling.classList.toggle("done");
     });
@@ -100,4 +105,4 @@ function deleteToDo() {
 }
 
 // Adicion de nodos hijos a la aplicacion
-appendChildNodes(appContainer, appHeader, appBody);
+appendChildNodes(appContainer, appTitle, appHeader, appBody);

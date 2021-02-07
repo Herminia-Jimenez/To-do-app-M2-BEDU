@@ -10,6 +10,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "Roboto", sans-serif;
 }
 
 #app {
@@ -66,6 +67,43 @@ body {
 }
 
 .descriptionWrapper.done {
+  color: rgb(133, 156, 155);
+  animation: markdone 0.3s linear;
+  text-decoration-color: white;
+}
+
+@keyframes markdone {
+  from {
+    text-decoration-color: transparent;
+  }
+  to {
+    text-decoration-color: auto;
+  }
+}
+@keyframes unmarkdone {
+  from {
+    text-decoration-color: white;
+  }
+  to {
+    text-decoration-color: transparent;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .checkToDo {
+    border-radius: 20px;
+    padding: 50px;
+  }
+  .deleteToDo {
+    border-radius: 20px;
+    padding: 50px;
+  }
+  /* .descriptionWrapper{
+  grid-template-columns: 20;
+  } */
+}
+
+.descriptionWrapper.done {
   color: #95a5a6;
   animation: markdone 0.3s linear;
   text-decoration-color: #000;
@@ -94,7 +132,7 @@ body {
 }
 
 .deleteToDo:hover {
-  background-color: #e43725;
+  background-color: #e74c3c;
   color: #fff;
 }
 
