@@ -28,6 +28,13 @@ function addClasses(node, ...styleClasses) {
   });
 }
 
+//Bloque para integrar título
+const appTitle = createNode ("h1");
+appTitle.id = "appTitle";
+addClasses (appTitle, "mb-5", "text-center")
+
+appendChildNodes (appTitle, "24 BruTask");
+
 // Bloque para integrar cabecera de la app en html
 const appHeader = createNode("form");
 appHeader.id = "appHeader";
@@ -37,7 +44,7 @@ const inputTask = createNode("input");
 addClasses(inputTask, "form-control", "mr-3");
 inputTask.type = "text";
 inputTask.name = "todo";
-inputTask.placeholder = "Add a new task...";
+inputTask.placeholder = "Add a task...";
 
 const submitTask = createNode("button");
 addClasses(submitTask, "btn", "btn-info", "px-5");
@@ -56,15 +63,15 @@ addClasses(appBody, "container-fluid", "bg-active", "py-2");
 function generateToDoTemplate(toDoDescription) {
   const toDoTemplate = `  
     <input class="checkToDo col" type="checkbox">
-    <div class="descriptionWrapper col-10 border-secondary"> 
+    <div class="descriptionWrapper col-8 col-sm-10 border-secondary"> 
         ${toDoDescription}
     </div>
-    <button class="btn deleteToDo col"><img src="./delete.svg"></button>
+    <button class="btn deleteToDo col"><i class="fas fa-trash"></i></button>
     `;
   const todo = createNode();
   todo.innerHTML += toDoTemplate;
-  addClasses(todo, "todo-item", "row", "shadow", "w-100", "bg-light");
-  appBody.insertBefore(todo, appBody.firstChild);
+  addClasses(todo, "todo-item", "row", "shadow", "w-100", "bg-dark");
+  appBody.insertBefore(todo, appBody.firstChild); 
 }
 
 appHeader.addEventListener("submit", (e) => {
@@ -98,4 +105,4 @@ function deleteToDo() {
   }
 
 // Adicion de nodos hijos a la aplicacion
-appendChildNodes(appContainer, appHeader, appBody);
+appendChildNodes(appContainer, appTitle, appHeader, appBody);

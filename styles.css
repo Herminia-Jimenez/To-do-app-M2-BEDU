@@ -10,7 +10,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Roboto', sans-serif;
 }
+
 
 #app {
   max-width: 720px;
@@ -53,9 +55,6 @@ body {
   cursor: pointer;
 }
 
-.checkToDo:checked {
-  background-color: red;
-}
 
 .descriptionWrapper {
   border-right: 2px solid;
@@ -63,6 +62,47 @@ body {
   display: flex;
   align-items: center;
   word-break: break-all;
+  animation: unmarkdone 0.3s linear;
+  text-decoration: line-through;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+}
+
+.descriptionWrapper.done {
+  color: rgb(133, 156, 155);
+  animation: markdone 0.3s linear;
+  text-decoration-color: white;
+}
+
+@keyframes markdone {
+  from {
+    text-decoration-color: transparent;
+  }
+  to {
+    text-decoration-color: auto;
+  }
+}
+@keyframes unmarkdone {
+  from {
+    text-decoration-color: white;
+  }
+  to {
+    text-decoration-color: transparent;
+  }
+}
+
+@media screen and (max-width: 500px){
+  .checkToDo {
+  border-radius: 20px;
+  padding: 50px;
+  }
+  .deleteToDo{
+  border-radius: 20px;
+  padding: 50px;
+  }
+  /* .descriptionWrapper{
+  grid-template-columns: 20;
+  } */
 }
 
 .toDoDescription {
@@ -76,7 +116,7 @@ body {
 }
 
 .deleteToDo:hover {
-  background-color: #e43725;
+  background-color: #E74C3C;
   color: #fff;
 }
 
