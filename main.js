@@ -54,16 +54,17 @@ addClasses(appBody, "container-fluid", "bg-active", "py-2");
 
 // Logica de adicion de todos
 function generateToDoTemplate(toDoDescription) {
-  const toDoTemplate = `
-    <div class="todo-item row shadow w-100  bg-light ">
-        <input class="checkToDo col" type="checkbox">
-        <div class="descriptionWrapper col-10 border-secondary"> 
-            ${toDoDescription} 
-        </div>
-        <button class="btn deleteToDo col"><img src="./delete.svg"></button>
+  const toDoTemplate = `  
+    <input class="checkToDo col" type="checkbox">
+    <div class="descriptionWrapper col-10 border-secondary"> 
+        ${toDoDescription}
     </div>
+    <button class="btn deleteToDo col"><img src="./delete.svg"></button>
     `;
-  appBody.innerHTML += toDoTemplate;
+  const todo = createNode();
+  todo.innerHTML += toDoTemplate;
+  addClasses(todo, "todo-item", "row", "shadow", "w-100", "bg-light");
+  appBody.insertBefore(todo, appBody.firstChild);
 }
 
 appHeader.addEventListener("submit", (e) => {
@@ -71,12 +72,12 @@ appHeader.addEventListener("submit", (e) => {
   const newToDo = e.target.todo.value.trim();
   if (newToDo.length) {
     generateToDoTemplate(newToDo);
+    checkToDoDone();
+    deleteToDo();
     e.target.reset();
   }
 });
 
-// Adicion de nodos hijos a la aplicacion
-appendChildNodes(appContainer, appHeader, appBody);
 
 // Logica de marcado como hecho del todo
 function checkToDoDone() {
@@ -95,3 +96,6 @@ function deleteToDo() {
       });
     });
   }
+
+// Adicion de nodos hijos a la aplicacion
+appendChildNodes(appContainer, appHeader, appBody);
