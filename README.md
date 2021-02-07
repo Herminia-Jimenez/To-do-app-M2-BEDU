@@ -1,4 +1,6 @@
-# 24 BruTask
+# 24 BruTask 📋
+
+![App Preview](http://drive.google.com/uc?export=view&id=1GXBm0-LIEoLr7PZ6EY2BUtkCg1aE-_PL)
 
 _Desarrollo de una aplicación "To Do App" en la cual un usuario podrá:_
 * Agregar nuevas tareas a su lista.
